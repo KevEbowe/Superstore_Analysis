@@ -23,15 +23,24 @@ Business Questions
 
 
 INSIGHTS FROM DATA ANALYSIS
+
 Some of the insights gained from the analysis are:
-•	The total number of customers that made purchases was 793
-•	The total number of orders made was 9994
-•	The most sales and profit was made from the western region, with the most sales and profits coming from the state of California
+
+•	The total number of customers that made purchases was 793.
+
+•	The total number of orders made was 9994.
+
+•	The most sales and profit was made from the western region, with the most sales and profits coming from the state of California.
+
 •	Texas recorded the least profits gained as no money was made from sales, rather losses were accrued despite recording the third most sales and discounts in the country.
-•	Technology was the best-selling category in all but the western region, which had Furniture as its best-seller
+
+•	Technology was the best-selling category in all but the western region, which had Furniture as its best-seller.
+
 •	A rise in profits generated was observed along the years, with the least profits recorded in 2014 and the highest in 2017.
+
 •	There was a slight drop in sales in 2015 from the total sales recorded in 2014. Otherwise sales generated increased across the years.
-•	Standard shipping was the most preferred shipping mode for customers out of first-class, same-day and second-class shipping and standard shipping methods, although first class was observed to be fastest shipping mode
+
+•	Standard shipping was the most preferred shipping mode for customers out of first-class, same-day and second-class shipping and standard shipping methods, although first class was observed to be fastest shipping mode.
 
 
 DATA VISUALIZATION
