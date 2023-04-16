@@ -33,22 +33,32 @@ Some of the insights gained from the analysis are:
 •	There was a slight drop in sales in 2015 from the total sales recorded in 2014. Otherwise sales generated increased across the years.
 •	Standard shipping was the most preferred shipping mode for customers out of first-class, same-day and second-class shipping and standard shipping methods, although first class was observed to be fastest shipping mode
 
-RECOMMENDATIONS
-•	Increase the focus on the western region, especially in California, since it generates the highest sales and profits. The company could consider expanding its operations in this region and increasing marketing efforts to attract more customers.
-•	Review the sales and profits in Texas and identify the factors contributing to the losses despite recording high sales and discounts. It may be necessary to adjust pricing, product mix, or operational costs to improve profitability in this state.
-•	Review the product mix across all regions and consider increasing the focus on the technology category since it is the best-selling category, except in the western region. The company may also consider diversifying its product mix in the western region to increase sales and profits.
-•	The company should consider improving the delivery times for standard shipping since it is the most used. This can help to improve customer satisfaction and loyalty, as well as increase sales and profits for the company.
-•	Evaluate the trend in profits generated over the years to identify the factors contributing to the rise in profits. This analysis will help the company to maintain profitability by focusing on the strategies that have worked in the past and identifying new opportunities for growth.
-•	Monitor the sales trend across the years to identify any significant changes that may require adjustments in the company's operations, such as adjusting inventory levels or changing the pricing strategy.
-
-LIMITATIONS
-The dataset used for this analysis only contained historical data from 2014-2017. There were no recent data available to conduct my analysis.
 
 DATA VISUALIZATION
 
-Upon completion of my analysis, I proceeded to create a dashboard to visualize the insights gained from data exploration using SQL on PGAdmin.
+Upon completion of my analysis, I proceeded to create a dashboard with tableau to visualize the insights gained from data exploration using SQL on PGAdmin.
 
 
 
+![super_dash](https://user-images.githubusercontent.com/116027848/232347126-f5f9bc50-f5a7-47a0-b108-8d3523113112.jpeg)
+
+RECOMMENDATIONS
+
+•	Increase the focus on the western region, especially in California, since it generates the highest sales and profits. The company could consider expanding its operations in this region and increasing marketing efforts to attract more customers.
+
+•	Review the sales and profits in Texas and identify the factors contributing to the losses despite recording high sales and discounts. It may be necessary to adjust pricing, product mix, or operational costs to improve profitability in this state.
+
+•	Review the product mix across all regions and consider increasing the focus on the technology category since it is the best-selling category, except in the western region. The company may also consider diversifying its product mix in the western region to increase sales and profits.
+
+•	The company should consider improving the delivery times for standard shipping since it is the most used. This can help to improve customer satisfaction and loyalty, as well as increase sales and profits for the company.
+
+•	Evaluate the trend in profits generated over the years to identify the factors contributing to the rise in profits. This analysis will help the company to maintain profitability by focusing on the strategies that have worked in the past and identifying new opportunities for growth.
+
+•	Monitor the sales trend across the years to identify any significant changes that may require adjustments in the company's operations, such as adjusting inventory levels or changing the pricing strategy.
+
+
+LIMITATIONS
+
+The dataset used for this analysis only contained historical data from 2014-2017. There were no recent data available to conduct this analysis.
 
 
