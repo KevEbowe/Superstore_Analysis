@@ -1,0 +1,230 @@
+--- Total sales
+SELECT ROUND(SUM(sales),1) total_sales
+FROM store
+
+--- Total profits
+SELECT ROUND(SUM(sprofit),1) total_profits
+FROM store
+
+--- Total number of customers
+SELECT COUNT( DISTINCT customer_id) total_customers
+FROM store
+
+--- Number of customers by segment
+SELECT segment, COUNT(*) segment_count
+FROM store
+GROUP BY segment
+ORDER BY segment_count DESC;
+
+--- Total Orders
+SELECT COUNT(order_id) num_of_orders
+FROM store
+
+--- How did profit margins change along the years
+SELECT DATE_PART('year',order_date) sales_year, 
+ROUND(SUM(profit),2) yearly_profits
+FROM store
+GROUP BY DATE_PART('year',order_date)
+ORDER BY yearly_profits;
+
+--- Total sales per year
+SELECT DATE_PART('year',order_date) sales_year, ROUND(SUM(sales),1) yearly_sales
+FROM store 
+GROUP BY DATE_PART('year',order_date)
+ORDER BY yearly_sales DESC
+
+
+--- Total orders per year
+SELECT DATE_PART('year',order_date) order_year, 
+COUNT(*) total_orders
+FROM store
+GROUP BY DATE_PART('year',order_date)
+ORDER BY total_orders;
+
+--- which shipping mode had the most orders shipped in
+not more than 3 days from order date?
+
+SELECT ship_mode, COUNT(*) total_count
+FROM
+(SELECT ship_mode, ship_date, order_date,
+DATE_PART('day', MAKE_INTERVAL(days => ship_date - order_date)) AS days_between
+FROM store)sub
+WHERE days_between <= 3
+GROUP BY ship_mode
+ORDER BY total_count DESC;
+
+--- what is the store performance in terms of total profit across regions?
+SELECT region, 
+ROUND(SUM(profit),2) total_profit
+FROM store
+GROUP BY region
+ORDER BY total_profit DESC;
+
+--- How do customers use the different shipping methods
+SELECT ship_mode, COUNT(*) ship_mode_count
+FROM store
+GROUP BY ship_mode
+ORDER BY ship_mode_count DESC;
+
+--- Best selling category by region
+SELECT region, category,
+total_sales
+FROM
+(SELECT region,
+category,
+ROUND(SUM(sales),2) total_sales,
+RANK() OVER (PARTITION BY region order by SUM(sales) desc) top_sales
+FROM store
+GROUP BY region,category)sub
+WHERE top_sales =1
+ORDER BY total_sales DESC;
+
+---Top 3 customers by region
+SELECT region, customer_name
+FROM
+(SELECT region,
+customer_name,
+SUM(sales),
+RANK() OVER(PARTITION BY region order by SUM(sales) desc) as rank_num
+FROM store
+GROUP BY region, customer_name)sub
+WHERE rank_num <=3;
+
+---What city in the west had the most sales
+SELECT city, SUM(sales) top_sales
+FROM store
+WHERE region like 'W%'
+GROUP BY  city
+ORDER BY top_sales DESC
+LIMIT 1;
+
+
+
+--- What is the average profit per order 
+for each customer?
+
+SELECT customer_name, 
+ROUND(AVG(profit),2) avg_profit
+FROM store
+GROUP BY customer_name
+ORDER BY avg_profit DESC;
+
+--- For each category, what is the difference 
+between the highest and lowest sales?
+
+SELECT category, MAX(sales) top_sales, MIN(sales) lowest_sales,
+(MAX(sales)-MIN(sales)) sales_diff
+FROM store
+GROUP BY category
+ORDER BY sales_diff DESC;
+
+
+--- What is the running total of profit 
+for each customer?
+
+SELECT customer_name,
+profit,
+SUM(profit) OVER(PARTITION BY customer_name ORDER BY profit) running_total
+FROM store
+GROUP BY customer_name, profit
+
+--- For each state, what is the percentage of total sales 
+compared to the total sales of all states?
+
+WITH t1 as (SELECT SUM(sales) tot_sales
+		   FROM store),
+	t2 as (SELECT state_name, SUM(sales) state_sales
+		  FROM store
+		   GROUP BY state_name)
+SELECT t2.state_name,
+ROUND(100*t2.state_sales/t1.tot_sales,2) percent_sales
+FROM t1
+CROSS JOIN t2
+ORDER BY percent_sales DESC;
+
+
+--- What is the difference in profit
+between each order and the previous order for each customer?
+
+SELECT customer_name,
+order_id,
+order_date,
+profit,
+LAG(profit) OVER(PARTITION BY customer_name ORDER BY order_date) lag_prof,
+profit-LAG(profit) OVER(PARTITION BY customer_name ORDER BY order_date) as profit_diff
+FROM store;
+
+
+--- What is the 3-month moving
+average of sales for each sub-category?
+SELECT sub_category,
+sales,
+DATE_TRUNC('month',order_date) order_month, 
+ AVG(sales) OVER (PARTITION BY sub_category ORDER BY date_trunc('month',order_date) ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS moving_avg
+FROM store;
+
+--- What are the top 10 sub_categories by sales made
+
+SELECT sub_category,
+ROUND(SUM(sales),2) total_sales,
+RANK() OVER(ORDER BY SUM(sales) DESC) product_rank
+FROM store
+GROUP BY sub_category
+LIMIT 10;
+
+--- What are the top 10 sub-categories by profits made
+
+SELECT sub_category,
+ROUND(SUM(profit),2) total_profits,
+RANK() OVER(ORDER BY SUM(profit) DESC) product_rank
+FROM store
+GROUP BY sub_category
+LIMIT 10;
+
+--- How are the different shipping modes used in the different regions?
+
+ SELECT region, ship_mode, COUNT(ship_mode) num
+FROM store
+GROUP BY region, ship_mode
+ORDER BY region,num DESC;
+
+--- How are the profits of the different segments?
+SELECT segment,
+ROUND(SUM(profit),2) total_profit
+FROM store
+GROUP BY segment
+ORDER BY total_profit DESC;
+
+ --- which has been the top month across the years for profit in each region?
+
+SELECT sub3.region,sub3.months,sub2.max_profit
+FROM
+(SELECT region,
+MAX(monthly_profit) max_profit
+FROM
+(SELECT region,
+DATE_TRUNC('month',order_date) months,
+ROUND(SUM(profit),2) monthly_profit
+FROM store
+GROUP BY region, DATE_TRUNC('month',order_date)
+ORDER_BY region DESC, monthly_profit DESC)sub1
+GROUP BY region
+ORDER BY region, max_profit)sub2
+JOIN
+(SELECT region,
+DATE_TRUNC('month',order_date) months,
+ROUND(SUM(profit),2) monthly_profit
+FROM store
+GROUP BY region, DATE_TRUNC('month',order_date)
+ORDER_BY monthly_profit DESC)sub3
+ON
+sub3.monthly_profit=sub2.max_profit and sub3.region=sub2.region
+
+
+--- What is the total profit and ranking of each month for the store?
+SELECT DATE_TRUNC('month',order_date) months,
+SUM(profit) total_profit,
+RANK() OVER(ORDER BY SUM(sales) DESC) month_rank
+FROM store
+GROUP BY DATE_TRUNC('month',order_date)
+
